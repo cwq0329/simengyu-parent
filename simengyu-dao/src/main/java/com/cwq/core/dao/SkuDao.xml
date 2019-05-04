@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cwq.core.dao.SkuDao">
+	<select id="findSkuAndColorByProductId" parameterType="Long" resultType="SuperPojo">
+		SELECT
+			*, c. name  AS colorName
+		FROM
+			 bbs_sku  AS s,
+			bbs_color c
+		WHERE
+			s.color_id = c.id
+		AND product_id = #{productId}; 
+	</select>
+	
+	
+	<select id="findSkuAndColorAndProductBySkuId" parameterType="Long" resultType="SuperPojo">
+		SELECT *,s.id skuId,c.name colorName,p.`name` productName,p.img_url imgUrl
+		FROM bbs_sku s,bbs_color c,bbs_product p
+		where 
+		s.color_id=c.id
+		and p.id=s.product_id
+		and s.id=#{skuId}
+	</select>
+	
+
+	
+	<insert id="insertSku" parameterType="Sku" useGeneratedKeys="true"
+	keyProperty="id" keyColumn="id">
+				INSERT INTO `babasport`.`bbs_sku` (
+			`id`,
+			`product_id`,
+			`color_id`,
+			`size`,
+			`market_price`,
+			`price`,
+			`delive_fee`,
+			`stock`,
+			`upper_limit`,
+			`create_time`
+		)
+		VALUES
+			(
+				#{id},
+				#{productId},
+				#{colorId},
+				#{size},
+				#{marketPrice},
+				#{price},
+				#{deliveFee},
+				#{stock},
+				#{upperLimit},
+				#{createTime}
+			);
+	</insert>
+	
+
+
+<update id="updateSkuInfo" parameterType="Sku" >
+	update `bbs_sku`
+	<set>
+		<if test="marketPrice != null">market_price = #{marketPrice},</if>
+		<if test="price != null">price = #{price},</if>
+		<if test="stock != null">stock = #{stock},</if>
+		<if test="upperLimit != null">upper_limit = #{upperLimit},</if>
+		<if test="deliveFee != null">delive_fee = #{deliveFee}</if>
+	</set>
+	<where>
+		id=#{id};
+	</where>	
+</update>
+	
+	<select id="findSkuMinPriceByProductId" parameterType="Long" resultType="Sku">
+		SELECT
+			*
+		FROM
+			bbs_sku
+		WHERE
+			product_id =#{productId}
+		ORDER BY
+			price ASC
+	</select>
+
+
+</mapper>

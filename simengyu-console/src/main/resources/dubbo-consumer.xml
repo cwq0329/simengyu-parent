@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/task
+   		http://www.springframework.org/schema/task/spring-task.xsd
+		http://code.alibabatech.com/schema/dubbo        
+		http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+		<!-- dubbo消费方的配置    -->
+		<!-- dubbo消费方提供名称 -->
+		<dubbo:application name="simengyu-console"/>
+
+		<dubbo:registry address="N/A" check="false"/>
+		
+		<!-- 调用接口 -->
+		<!-- <dubbo:reference interface="com.cwq.core.service.TbTestService" id="tbTestService"
+		url="dubbo://127.0.0.1:20880"/> -->
+		
+		<dubbo:reference interface="com.cwq.core.service.BrandService" id="brandService"
+		url="dubbo://127.0.0.1:20880"/>
+		
+		<dubbo:reference interface="com.cwq.core.service.ProductService" id="productService"
+		url="dubbo://127.0.0.1:20880"/>
+		
+		<dubbo:reference interface="com.cwq.core.service.SkuService" id="skuService"
+		url="dubbo://127.0.0.1:20880"/>
+		<!-- 设置全局超时时间  消费方不检查提供方-->
+		<dubbo:consumer timeout="60000" check="false"/>
+		</beans>
+		
+		
+		

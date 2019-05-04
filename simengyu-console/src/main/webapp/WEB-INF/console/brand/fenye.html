@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+    <h1>商品列表</h1>
+    <table>
+       <table cellspacing="1" cellpadding="0" border="0" width="100%" class="pn-ltable">
+			<thead class="pn-lthead">
+				<tr>
+					<th width="20"><input type="checkbox" onclick="checkBox('ids',this.checked)"/></th>
+					<th>品牌ID</th>
+					<th>品牌名称</th>
+					<th>品牌图片</th>
+					<th>品牌描述</th>
+					<th>排序</th>
+					<th>是否可用</th>
+					<th>操作选项</th>
+				</tr>
+	      </thead>
+	      <tbody  id="item">
+	      
+	      </tbody>
+    </table>
+</body>
+
+
+ <script>
+ 
+     $(function(){
+    	 
+    	 $.ajax({
+    		param:{pagesize:pagesize,currentPage:currentPage,where:where,...}, 
+    		url:"**/ItemServlet",
+    		success:function(data){
+    			
+    		  var data=Json.parse(data);
+    		  
+    		  if(data){
+    			  if(data.code=='1'){
+    				 // 
+    				 var totalNum=data.total;
+    				 //計算總頁數
+    				 //(totalNum+pagesize-1)/pagesize
+    				 
+    				 var totalPagenum=Math.ceil(totalNum/pagesize);
+    				 //分頁條顯示完畢
+    				 buildFenyeBar(totalPagenum,currentPage);
+    				 //{total:10,data:[{},{}]}
+    				 //獲取真實數據
+    				 var dataItem=data.data;
+    				 
+    				 for(var i=0;i<dataItem.length;I++){
+    					 var item=dataItem[i];
+    					 $("#dataItem").append("<tr><td>"+item.id+"</td><td>"+item.name+"</td></tr>");
+    				 }
+    				  
+    			  }else if(){
+    				  alert("加載失敗");
+    			  }
+    			  
+    			  
+    		  }
+    		}	 
+    	 });
+    	 
+    	 
+     });
+     
+     
+    function buildFenyeBar(totalPagenum,currentPage){
+    	
+    	
+    }
+ </script>
+</html>
+
+
+
+
+

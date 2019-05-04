@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cwq.core.dao.ProductDao">
+	<select id="findProductPage" parameterType="Product" resultType="Product">
+		SELECT
+		*
+	FROM
+		bbs_product p
+	
+	<where>
+		<if test="name != null">
+		and NAME LIKE "%"#{name}"%"
+		</if>
+		<if test="brandId != null" >
+		AND p.brand_id = #{brandId}
+		</if>
+		<if test="isShow != null ">
+			AND p.is_show = #{isShow}
+		</if>
+		ORDER BY
+		p.create_time DESC
+	</where>
+	</select>
+	
+	<insert id="insertProduct" parameterType="Product" useGeneratedKeys="true"
+	keyProperty="id" keyColumn="id">
+		INSERT INTO `babasport`.`bbs_product` (
+			`id`,
+			`brand_id`,
+			`name`,
+			`weight`,
+			`is_new`,
+			`is_hot`,
+			`is_commend`,
+			`is_show`,
+			`img_url`,
+			`is_del`,
+			`description`,
+			`package_list`,
+			`colors`,
+			`sizes`,
+			`create_time`
+												)
+		VALUES
+			(
+				NULL,
+				#{brandId},
+				#{name},
+				#{weight},
+				#{isNew},
+				#{isHot},
+				#{isCommend},
+				#{isShow},
+				#{imgUrl},
+				#{isDel},
+				#{description},
+				#{packageList},
+				#{colors},
+				#{sizes},
+				#{createTime}
+			);
+	</insert>
+	
+	<delete id="deleteSingleProductById" parameterType="Long"   >
+	DELETE
+		FROM
+		bbs_product
+		WHERE
+		id =#{productId};
+	</delete>
+	
+	
+	<delete id="deleteBatchProductByIds">
+	DELETE
+		FROM
+		bbs_product
+		WHERE
+		id in 
+	<foreach collection="ids" item="id" separator="," open="(" close=")">
+		#{id}
+	</foreach>
+	</delete>
+	
+	<update id="updateIsShowOrHide" >
+		UPDATE bbs_product p
+			SET 
+			<if test="product.isShow !=null">p.is_show = #{product.isShow}</if>
+		WHERE
+			id IN 
+			<foreach collection="ids" item="id" separator="," open="(" close=")">
+				#{id}
+			</foreach>
+	</update>
+	
+	<select id="findinfo"  resultType="Product">
+				SELECT
+			*
+		FROM
+			bbs_product p
+		WHERE
+			p.is_show = #{product.isShow}
+		AND id in
+		<foreach collection="ids" item="id" separator="," open="(" close=")">
+				#{id}
+			</foreach>
+			
+	</select>
+	
+	<select id="findProductByIds" resultType="Product">
+			SELECT
+				*
+			FROM
+				bbs_product
+			WHERE
+			id IN 
+			<foreach collection="ids" item="id" separator="," open="(" close=")">
+				#{id}
+			</foreach>
+	</select>
+	
+	<select id="findProductInfoById" resultType="Product">
+		SELECT
+		*
+	FROM
+		bbs_product
+	WHERE
+		id = #{productId}
+	
+	</select>
+	
+	
+</mapper>

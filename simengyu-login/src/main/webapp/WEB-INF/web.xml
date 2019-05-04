@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  <display-name>babasport-login</display-name>
+	<!-- srpingmvc入口,控制中心 -->
+	<servlet>
+		<servlet-name>login</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+		<!-- 默认会找WEB-INF下的/[servlet名称]-servlet.xml -->
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:springmvc-login.xml</param-value>
+		</init-param>
+		<!-- 启动时就加载配置文件 -->
+		<load-on-startup>1</load-on-startup>
+		
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>login</servlet-name>
+		<!-- /*拦截所有
+			/拦截所有请求,不包括jsp,如果不想拦截静态资源,需设置通行
+			*.do拦截扩展名为此的请求
+		 -->
+		<url-pattern>*.aspx</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 编码过滤器，处理post方式的请求编码 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+</web-app>
